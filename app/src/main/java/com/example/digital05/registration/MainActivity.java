@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editTextEmail;
     private EditText editTextPassword;
     private TextView linkLogin;
+    private CheckBox showPassword;
 
     private Button buttonRegister;
 
@@ -62,12 +67,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(i);
             }
         });
+
+        showPassword = (CheckBox) findViewById(R.id.show_password);
+        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked){
+                    editTextPassword.setInputType(129);
+                } else {
+                    editTextPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
     }
 
     private void registerUser() {
         username = editTextUsername.getText().toString().trim();
         email = editTextEmail.getText().toString().trim();
         password = editTextPassword.getText().toString();
+
+        if (!validate()){
+            onRegistrationFailed();
+            return;
+        }
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
                 new Response.Listener<String>() {
@@ -103,6 +125,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v == buttonRegister) {
             registerUser();
         }
+    }
+
+    public boolean validate(){
+        boolean valid = true;
+
+        String username = editTextUsername.getText().toString();
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
+
+        if (username.isEmpty() || username.length() < 4 || username.length() > 10){
+            editTextUsername.setError("must be between 4 and 10 characters");
+            valid = false;
+        } else {
+            editTextUsername.setError(null);
+        }
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editTextEmail.setError("enter a valid email address");
+        } else {
+            editTextEmail.setError(null);
+        }
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10){
+            editTextPassword.setError("must be between 4 and 10 alphanumerical characters");
+        } else {
+            editTextPassword.setError(null);
+        }
+
+        return valid;
+    }
+
+    public void onRegistrationFailed(){
+        Toast.makeText(MainActivity.this, "Registration failed", Toast.LENGTH_LONG).show();
+        buttonRegister.setEnabled(true);
     }
 
 }

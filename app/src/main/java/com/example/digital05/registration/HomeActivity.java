@@ -62,9 +62,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menuLogout){
+        if (id == R.id.menuLogout) {
             logout();
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

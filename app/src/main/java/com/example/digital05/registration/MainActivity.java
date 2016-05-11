@@ -1,11 +1,13 @@
 package com.example.digital05.registration;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,9 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editTextUsername;
     private EditText editTextEmail;
     private EditText editTextPassword;
+    private TextView linkLogin;
 
     private Button buttonRegister;
-    private Button buttonLogin;
 
     private String username;
     private String email;
@@ -42,16 +44,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sign_up);
 
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
-        buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonRegister.setOnClickListener(this);
-        buttonLogin.setOnClickListener(this);
+
+        linkLogin = (TextView) findViewById(R.id.link_login);
+        linkLogin.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        linkLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void registerUser() {
@@ -64,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(i);
                     }
                 },
                 new Response.ErrorListener() {
@@ -90,9 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v == buttonRegister) {
             registerUser();
-        }
-        if (v == buttonLogin){
-            startActivity(new Intent(this, LoginActivity.class));
         }
     }
 

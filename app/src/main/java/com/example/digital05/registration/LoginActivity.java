@@ -3,11 +3,13 @@ package com.example.digital05.registration;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -37,6 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText editTextUsername;
     private EditText editTextPassword;
+    private TextView createUserTextView;
 
     private Button buttonLogin;
 
@@ -47,23 +50,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_log_in);
 
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        createUserTextView = (TextView) findViewById(R.id.createUserTextView);
+        createUserTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        createUserTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
 
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonLogin.setOnClickListener(this);
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         loggedIn = sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false);
 
-        if (loggedIn){
+        if (loggedIn) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
         }

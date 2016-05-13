@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(LOGGEDIN_SHARED_PREF, true);
                     editor.putString(USERNAME_SHARED_PREF, username);
-                    editor.commit();
+                    editor.apply();
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(KEY_USERNAME, username);

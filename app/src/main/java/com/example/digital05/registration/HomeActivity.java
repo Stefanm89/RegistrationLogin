@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putBoolean(LoginActivity.LOGGEDIN_SHARED_PREF, false);
                         editor.putString(LoginActivity.USERNAME_SHARED_PREF, "");
-                        editor.commit();
+                        editor.apply();
 
                         Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                         startActivity(i);

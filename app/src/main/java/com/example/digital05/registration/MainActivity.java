@@ -27,8 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String REGISTER_URL = "http://nekoeime.esy.es/volleyRegister.php";
-
+        private static final String REGISTER_URL = "http://nekoeime.esy.es/volleyRegister.php";
 
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
